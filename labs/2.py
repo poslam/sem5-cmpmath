@@ -92,30 +92,20 @@ def solve_system(M):
     return {k: ans[k] for k in sorted(ans)}
 
 
-M = np.array(
-    [
-        [2.1, -4.5, -2, 19.07],
-        [3, 2.5, 4.3, 3.21],
-        [-6, 3.5, 2.5, -18.25],
-    ]
-)
+M = np.random.rand(5, 6)
 
 ans = solve_system(M)
-
-
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
 print(
     f"""
-
-alg solve: 
-{[(f"{i[0]}: {i[1]}") for i in ans.items()]}
+alg solve:
+{''.join(f"{i[0]}: {i[1]}\n" for i in ans.items())}
 
 np solve:
-{[(f"{i[0]}: {i[1]}") for i in enumerate(np_ans)]}
+{''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
 
 delta:
-{[(f"{i[0]}: {abs(i[1] - ans[i[0]])}") for i in enumerate(np_ans)]}
-
+{''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
 """
 )
