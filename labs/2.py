@@ -2,6 +2,8 @@
 
 import numpy as np
 
+size = (10, 11)
+
 
 def find_max(M):
     mx = None
@@ -92,13 +94,16 @@ def solve_system(M):
     return {k: ans[k] for k in sorted(ans)}
 
 
-M = np.random.rand(5, 6)
+M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = solve_system(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
 print(
     f"""
+matrix:
+{M}
+
 alg solve:
 {''.join(f"{i[0]}: {i[1]}\n" for i in ans.items())}
 
