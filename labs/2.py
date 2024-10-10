@@ -48,7 +48,7 @@ def cut_matrix(M):
     }
 
 
-def cut_matric_to_triangular(M):
+def cut_matrix_to_triangular(M):
     alphas = []
     betas = []
 
@@ -67,7 +67,7 @@ def cut_matric_to_triangular(M):
 
 
 def solve_system(M):
-    min_matrix = cut_matric_to_triangular(M)
+    min_matrix = cut_matrix_to_triangular(M)
 
     alphas = min_matrix["alphas"]
     betas = min_matrix["betas"]
