@@ -46,7 +46,7 @@ def cut_matrix(M):
     }
 
 
-def cut_matric_to_min(M):
+def cut_matric_to_triangular(M):
     alphas = []
     betas = []
 
@@ -64,6 +64,34 @@ def cut_matric_to_min(M):
     }
 
 
+def solve_system(M):
+    min_matrix = cut_matric_to_triangular(M)
+
+    alphas = min_matrix["alphas"]
+    betas = min_matrix["betas"]
+
+    ans = {}
+
+    for i in range(len(alphas) - 1, -1, -1):
+        eq = alphas[i]
+
+        for index, coef in ans.items():
+            betas[i] = betas[i] - eq[index] * coef
+            eq[index] = 0
+
+        counter = 0
+
+        for k in range(len(eq)):
+            if eq[k] != 0 and ans.get(k) is None:
+                ans[k] = betas[i] / eq[k]
+                counter += 1
+
+        if counter > 1:
+            raise Exception("system has many solutions")
+
+    return {k: ans[k] for k in sorted(ans)}
+
+
 M = np.array(
     [
         [2.1, -4.5, -2, 19.07],
@@ -72,9 +100,22 @@ M = np.array(
     ]
 )
 
-min_matrix = cut_matric_to_min(M)
+ans = solve_system(M)
 
-alphas = min_matrix["alphas"]
-betas = min_matrix["betas"]
 
-[print(alphas[i], betas[i]) for i in range(len(alphas))]
+np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
+
+print(
+    f"""
+
+alg solve: 
+{[(f"{i[0]}: {i[1]}") for i in ans.items()]}
+
+np solve:
+{[(f"{i[0]}: {i[1]}") for i in enumerate(np_ans)]}
+
+delta:
+{[(f"{i[0]}: {abs(i[1] - ans[i[0]])}") for i in enumerate(np_ans)]}
+
+"""
+)
