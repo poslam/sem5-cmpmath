@@ -2,8 +2,6 @@
 
 import numpy as np
 
-size = (10, 11)
-
 
 def find_max(M):
     mx = None
@@ -94,6 +92,7 @@ def solve_system(M):
     return {k: ans[k] for k in sorted(ans)}
 
 
+size = (7, 8)
 M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = solve_system(M)
