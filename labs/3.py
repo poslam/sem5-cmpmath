@@ -7,35 +7,35 @@ def optimal_elimination(M: np.ndarray) -> np.ndarray:
     M = M.astype(float)
     n = M.shape[0]
     max_cols = []
-    
-    
+
     for i in range(n):
-        max_col = max([(k, abs(M[i, k])) for k in range(n) if k not in max_cols], key=lambda x: x[1])[0]
+        max_col = max(
+            [(k, abs(M[i, k])) for k in range(n) if k not in max_cols],
+            key=lambda x: x[1],
+        )[0]
         max_cols.append(max_col)
-        
+
     done = []
-    
+
     for i in range(len(max_cols)):
         if (max_cols[i], i) in done or (i, max_cols[i]) in done:
             continue
-        
+
         done.append((max_cols[i], i))
         M[[i, max_cols[i]]] = M[[max_cols[i], i]]
-        
-    print(M, "\n")
+
+    # print(M, "\n")
 
     for i in range(n):
         for j in range(i):
             M[i, :] -= M[i, j] * M[j, :]
 
-        max_col = np.argmax(np.abs(M[i, :-1]))
-
-        M[i, :] /= M[i, max_col]
+        M[i, :] /= M[i, i]
 
         for j in range(i):
             M[j, :] -= M[j, i] * M[i, :]
 
-    print(M, "\n")
+        # print(M, "\n")
 
     ans = []
     for i in range(n):
@@ -53,27 +53,24 @@ M = np.array(
     ]
 )
 
-# size = (7, 8)
+# size = (9, 10)
 # M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = optimal_elimination(M)
-# np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
+np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
+print(
+    f"""
+matrix:
+{M}
 
-# print("Решение системы уравнений:", ans)
+alg solve:
+{''.join(f"{i}: {ans}\n" for i in range(len(ans)))}
 
-# print(
-#     f"""
-# matrix:
-# {M}
+np solve:
+{''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
 
-# alg solve:
-# {''.join(f"{i}: {ans}\n" for i in range(len(ans)))}
-
-# np solve:
-# {''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
-
-# delta:
-# {''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
-# """
-# )
+delta:
+{''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
+"""
+)
