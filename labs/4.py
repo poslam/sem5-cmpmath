@@ -47,8 +47,8 @@ M = np.array(
     ]
 )
 
-size = (6, 7)
-M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
+# size = (6, 7)
+# M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = LU(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
