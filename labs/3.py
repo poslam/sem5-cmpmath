@@ -84,7 +84,7 @@ matrix:
 {M}
 
 alg solve:
-{''.join(f"{i}: {ans}\n" for i in range(len(ans)))}
+{''.join(f"{i}: {ans[i]}\n" for i in range(len(ans)))}
 
 np solve:
 {''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
