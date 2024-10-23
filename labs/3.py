@@ -1,20 +1,22 @@
-# тема: метод оптимального исключения
+# тема: метод оптимального исключения (1.1.3)
 
 import numpy as np
 
 
-def optimal_elimination(M: np.ndarray) -> np.ndarray:
-    M = M.astype(float)
-    n = M.shape[0]
+def find_maxes(M: np.ndarray) -> np.ndarray:
     max_cols = []
 
-    for i in range(n):
+    for i in range(M.shape[0]):
         max_col = max(
-            [(k, abs(M[i, k])) for k in range(n) if k not in max_cols],
+            [(k, abs(M[i, k])) for k in range(M.shape[0]) if k not in max_cols],
             key=lambda x: x[1],
         )[0]
         max_cols.append(max_col)
 
+    return max_cols
+
+
+def rearrange_matrix(M: np.ndarray, max_cols: np.ndarray) -> np.ndarray:
     done = []
 
     for i in range(len(max_cols)):
@@ -24,9 +26,11 @@ def optimal_elimination(M: np.ndarray) -> np.ndarray:
         done.append((max_cols[i], i))
         M[[i, max_cols[i]]] = M[[max_cols[i], i]]
 
-    # print(M, "\n")
+    return M
 
-    for i in range(n):
+
+def basic_elimination(M: np.ndarray) -> np.ndarray:
+    for i in range(M.shape[0]):
         for j in range(i):
             M[i, :] -= M[i, j] * M[j, :]
 
@@ -37,17 +41,32 @@ def optimal_elimination(M: np.ndarray) -> np.ndarray:
 
         # print(M, "\n")
 
+    return M
+
+
+def solve_easy_system(M: np.ndarray) -> np.ndarray:
     ans = []
-    for i in range(n):
+    for i in range(M.shape[0]):
         index = np.argmax(np.abs(M[:, i]))
         ans.append((index, M[index, -1]))
 
     return list(map(lambda x: float(x[1]), sorted(ans, key=lambda x: x[0])))
 
 
+def optimal_elimination(M: np.ndarray) -> np.ndarray:
+    M = M.astype(float)
+
+    M = rearrange_matrix(M, find_maxes(M))
+    M = basic_elimination(M)
+
+    # print(M, "\n")
+
+    return solve_easy_system(M)
+
+
 M = np.array(
     [
-        [0, 2, 3, 3],
+        [5, 2, 3, 3],
         [1, 6, 1, 5],
         [3, -4, -2, 8],
     ]
