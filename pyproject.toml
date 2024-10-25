@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cmpmath"
+name = "labs"
 version = "0.1.0"
 description = ""
 authors = ["poslam <kirden04@gmail.com>"]
