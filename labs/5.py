@@ -35,16 +35,15 @@ def square_solve(M: np.ndarray) -> np.ndarray:
     y = np.zeros(n, dtype=np.complex128)
 
     S = make_triangular(M[:, :-1])
-    S_T = S.T
 
-    # print("S:")
-    # print_matrix(S)
+    print("S:")
+    print_matrix(S)
 
-    # recovered_m = S.T @ S
-    # print(np.allclose(M[:, :-1], recovered_m))
+    recovered_m = S.T @ S
+    print("check: ", np.allclose(M[:, :-1], recovered_m), "\n")
 
     for i in range(n):
-        y[i] = (M[i, -1] - sum(S_T[i, j] * y[j] for j in range(i))) / S_T[i, i]
+        y[i] = (M[i, -1] - sum(S.T[i, j] * y[j] for j in range(i))) / S.T[i, i]
 
     for i in range(n - 1, -1, -1):
         x[i] = (y[i] - sum(S[i, j] * x[j] for j in range(i + 1, n))) / S[i, i]

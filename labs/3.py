@@ -1,6 +1,14 @@
 # тема: метод оптимального исключения (1.1.3)
 
 import numpy as np
+from tabulate import tabulate
+
+
+def print_matrix(matrix):
+    if len(matrix.shape) == 1:
+        matrix = matrix.reshape((1, matrix.shape[0]))
+    str_matrix = [[str(cell) for cell in row] for row in matrix]
+    print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
 
 
 def find_maxes(M: np.ndarray) -> np.ndarray:
@@ -25,6 +33,8 @@ def rearrange_matrix(M: np.ndarray, max_cols: np.ndarray) -> np.ndarray:
 
         done.append((max_cols[i], i))
         M[[i, max_cols[i]]] = M[[max_cols[i], i]]
+        
+    print_matrix(M)
 
     return M
 
@@ -39,7 +49,7 @@ def basic_elimination(M: np.ndarray) -> np.ndarray:
         for j in range(i):
             M[j, :] -= M[j, i] * M[i, :]
 
-        # print(M, "\n")
+        print_matrix(M)
 
     return M
 
@@ -59,8 +69,6 @@ def optimal_elimination(M: np.ndarray) -> np.ndarray:
     M = rearrange_matrix(M, find_maxes(M))
     M = basic_elimination(M)
 
-    # print(M, "\n")
-
     return solve_easy_system(M)
 
 
@@ -72,17 +80,17 @@ M = np.array(
     ]
 )
 
-# size = (9, 10)
-# M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
+size = (9, 10)
+M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = optimal_elimination(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
+print("matrix:")
+print_matrix(M)
+
 print(
     f"""
-matrix:
-{M}
-
 alg solve:
 {''.join(f"{i}: {ans[i]}\n" for i in range(len(ans)))}
 

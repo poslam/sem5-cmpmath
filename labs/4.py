@@ -1,6 +1,14 @@
 # тема: LU (1.1.5)
 
 import numpy as np
+from tabulate import tabulate
+
+
+def print_matrix(matrix):
+    if len(matrix.shape) == 1:
+        matrix = matrix.reshape((1, matrix.shape[0]))
+    str_matrix = [[str(cell) for cell in row] for row in matrix]
+    print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
 
 
 def get_LU(M: np.ndarray) -> np.ndarray:
@@ -26,14 +34,8 @@ def LU(M: np.ndarray) -> np.ndarray:
     for i in range(n):
         y[i] = M[i, -1] - sum(L[i, j] * y[j] for j in range(i))
 
-        # print(M[i, -1], sum(L[i, j] * y[j] for j in range(i)), y[i])
-
-    # print("\n")
-
     for i in range(n - 1, -1, -1):
         x[i] = (y[i] - sum(U[i, j] * x[j] for j in range(i + 1, n))) / U[i, i]
-
-        # print(y[i], sum(U[i, j] * x[j] for j in range(i + 1, n)), x[i])
 
     return (L, U, x)
 
@@ -47,23 +49,23 @@ M = np.array(
     ]
 )
 
-# size = (6, 7)
-# M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
+size = (9, 10)
+M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
 ans = LU(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
+print("matrix:")
+print_matrix(M)
+
+print("L:")
+print_matrix(ans[0])
+
+print("U:")
+print_matrix(ans[1])
+
 print(
     f"""
-matrix:
-{M}
-
-L:
-{ans[0]}
-
-U:
-{ans[1]}
-
 check:
 {np.allclose(ans[0] @ ans[1], M[:, :-1])}
 
