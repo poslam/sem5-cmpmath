@@ -1,4 +1,4 @@
-# тема: окаймления ()
+# тема: метод окаймления
 
 import numpy as np
 from tabulate import tabulate
