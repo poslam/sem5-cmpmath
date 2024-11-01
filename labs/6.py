@@ -38,7 +38,6 @@ def method_okaimleniy(M: np.ndarray) -> np.ndarray:
 
         A_inv_new = np.zeros((k + 1, k + 1))
 
-        # Обновляем инвертированную матрицу
         A_inv_new[:k, :k] = (
             A_inv_k
             + np.outer(
@@ -53,8 +52,7 @@ def method_okaimleniy(M: np.ndarray) -> np.ndarray:
 
         A_inv = A_inv_new
 
-    # Решаем уравнение
-    x = np.dot(A_inv, b)
+    x = A_inv @ b
     return x
 
 
@@ -80,12 +78,6 @@ np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
 print(
     f"""
-alg solve:
-{''.join(f"{i}: {ans[i]}\n" for i in range(len(ans)))}
-
-np solve:
-{''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
-
 delta:
 {''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
 """

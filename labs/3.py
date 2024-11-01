@@ -33,7 +33,7 @@ def rearrange_matrix(M: np.ndarray, max_cols: np.ndarray) -> np.ndarray:
 
         done.append((max_cols[i], i))
         M[[i, max_cols[i]]] = M[[max_cols[i], i]]
-        
+
     print_matrix(M)
 
     return M
