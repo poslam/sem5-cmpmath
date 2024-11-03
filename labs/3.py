@@ -11,6 +11,10 @@ def print_matrix(matrix):
     print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
 
 
+def check_ans(M: np.ndarray, ans: np.ndarray) -> bool:
+    print_matrix(M[:, :-1] @ ans - M[:, -1])
+
+
 def find_maxes(M: np.ndarray) -> np.ndarray:
     max_cols = []
 
@@ -101,3 +105,5 @@ delta:
 {''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
 """
 )
+
+check_ans(M, ans)
