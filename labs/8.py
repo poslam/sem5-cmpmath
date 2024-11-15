@@ -1,9 +1,38 @@
 # тема: простая итерация. релаксация (1.2.1, 1.2.3)
 
+from typing import Literal
+
 from labs.funcs import *
 
 
-def simple_iteration(M: np.ndarray, eps=1e-10, max_iter=None) -> np.ndarray:
+def generate_diag_dominant_matrix(n: int, m: int) -> np.ndarray:
+    if n >= m:
+        raise ValueError("n must be less than m")
+
+    A = np.random.uniform(-10, 10, size=(n, n))
+
+    for i in range(n):
+        row_sum = np.sum(np.abs(A[i, :])) - np.abs(A[i, i])
+
+        if A[i, i] >= 0:
+            A[i, i] = row_sum + np.random.uniform(1, 10)
+        else:
+            A[i, i] = -(row_sum + np.random.uniform(1, 10))
+
+    b = np.random.uniform(-10, 10, size=(n, np.abs(n - m)))
+
+    M = np.hstack((A, b)).astype(np.double)
+
+    return M
+
+
+def iteration(
+    M: np.ndarray,
+    eps=1e-10,
+    max_iter=1e5,
+    method: Literal["simple", "relax"] = "simple",
+) -> np.ndarray:
+
     A = M[:, :-1]
     b = M[:, -1]
     n = M.shape[0]
@@ -28,7 +57,7 @@ def simple_iteration(M: np.ndarray, eps=1e-10, max_iter=None) -> np.ndarray:
     xk_prev = beta + alpha @ xk
 
     while np.linalg.norm(xk_prev - xk) > eps:
-        print(xk, np.linalg.norm(xk_prev - xk))
+        # print(f"{counter}\t{xk}\t{np.linalg.norm(xk_prev - xk)}")
         xk_prev = xk
         xk = beta + alpha @ xk_prev
 
@@ -36,9 +65,6 @@ def simple_iteration(M: np.ndarray, eps=1e-10, max_iter=None) -> np.ndarray:
 
         if max_iter is not None and counter >= max_iter:
             break
-
-    print(counter)
-    print_matrix(xk)
 
     return (xk, counter)
 
@@ -51,17 +77,17 @@ M = np.array(
     ]
 )
 
-# size = (6, 7)
-# M = np.random.uniform(-1000, 1000, size=(size[0], size[1])).astype(np.double)
-# M /= np.max(M)
+size = (6, 7)
+M = generate_diag_dominant_matrix(*size)
+M /= np.max(M)
 
 print("matrix:")
 print_matrix(M)
 
-ans = simple_iteration(M, eps=1e-30)
+ans = iteration(M, eps=1e-20)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
-print(f"iteration: {ans[1]}")
+print(f"iterations: {ans[1]}")
 ans = ans[0]
 
 print(
