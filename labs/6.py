@@ -53,25 +53,38 @@ def method_okaimleniy(M: np.ndarray) -> np.ndarray:
     x = A_inv @ b
     return x
 
-
-M = np.array(
-    [
-        [1, 3, -2, 0, -2, 0.5],
-        [3, 4, -5, 1, -3, 5.4],
-        [-2, -5, 3, -2, 2, 5],
-        [0, 1, -2, 5, 3, 7.5],
-        [-2, -3, 2, 3, 4, 3.3],
-    ]
-)
-
 size = (6, 7)
 M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
+
+print("matrix:")
+print_matrix(M)
 
 ans = method_okaimleniy(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
+print(
+    f"""
+delta:
+{''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
+"""
+)
+
+print("check (M @ x - b):")
+check_ans(M, ans)
+
+
+
+
+
+
+print(np.max(M))
+M /= np.max(M)
+
 print("matrix:")
 print_matrix(M)
+
+ans = method_okaimleniy(M)
+np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
 print(
     f"""

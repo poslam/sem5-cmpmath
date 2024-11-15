@@ -61,6 +61,7 @@ def QR(M: np.ndarray) -> np.ndarray:
 
 size = (6, 7)
 M = np.random.uniform(-1000, 1000, size=(size[0], size[1])).astype(np.double)
+M /= np.max(M)
 
 print("matrix:")
 print_matrix(M)
