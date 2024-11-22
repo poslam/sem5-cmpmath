@@ -1,6 +1,7 @@
 # тема: метод окаймления
 
 import sys
+
 import numpy as np
 from tabulate import tabulate
 

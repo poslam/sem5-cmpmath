@@ -1,19 +1,13 @@
 # тема: метод квадратного корня (1.1.4)
 
-from cmath import sqrt as csqrt
 import sys
+from cmath import sqrt as csqrt
 
 import numpy as np
-from tabulate import tabulate
+
+from labs.funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
-
-
-def print_matrix(matrix):
-    if len(matrix.shape) == 1:
-        matrix = matrix.reshape((1, matrix.shape[0]))
-    str_matrix = [[str(cell) for cell in row] for row in matrix]
-    print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
 
 
 def make_triangular(M: np.ndarray) -> np.ndarray:
@@ -64,10 +58,10 @@ M = np.array(
     ]
 )
 
-# генерирует симметричные матрицы
 size = (6, 7)
-M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
-M = np.hstack((M[:, :-1] @ M[:, :-1].T, M[:, -1].reshape(-1, 1)))
+
+M = generate_symmetric_matrix(*size).astype(np.double)
+M /= np.max(M)
 
 ans = square_solve(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])

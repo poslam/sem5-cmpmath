@@ -1,45 +1,17 @@
-# тема: простая итерация. релаксация (1.2.1, 1.2.3)
+# тема: простая итерация. релаксация (1.2.1, ...)
 # src: https://kpfu.ru/portal/docs/F_939319029/drz.tmr.ChM_2..pdf
 
 import sys
-from typing import Literal
 
 from labs.funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
 
 
-def generate_diag_dominant_matrix(
-    n: int,
-    m: int,
-    min_border: int = -100,
-    max_border: int = 100,
-) -> np.ndarray:
-    if n >= m:
-        raise ValueError("n must be less than m")
-
-    A = np.random.uniform(min_border, max_border, size=(n, n))
-
-    for i in range(n):
-        row_sum = np.sum(np.abs(A[i, :])) - np.abs(A[i, i])
-
-        if A[i, i] >= 0:
-            A[i, i] = row_sum + np.random.uniform(1, 10)
-        else:
-            A[i, i] = -(row_sum + np.random.uniform(1, 10))
-
-    b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
-
-    M = np.hstack((A, b)).astype(np.double)
-
-    return M
-
-
-def iteration(
+def simple_iteration(
     M: np.ndarray,
     eps=1e-10,
     max_iter=1e5,
-    method: Literal["simple", "relax"] = "simple",
 ) -> np.ndarray:
 
     A = M[:, :-1]
@@ -112,14 +84,6 @@ def sor_method(
     return (x, iter_count)
 
 
-M = np.array(
-    [
-        [10, 2, 1, 10],
-        [1, 10, 2, 12],
-        [1, 1, 10, 8],
-    ]
-)
-
 size = (6, 7)
 M = generate_diag_dominant_matrix(*size).astype(np.double)
 # M = np.random.uniform(-10, 10, size=size)
@@ -130,8 +94,8 @@ print_matrix(M)
 
 print("steps:")
 
-# ans = iteration(M, eps=1e-20, max_iter=1e5)
-ans = sor_method(M, omega=1, eps=1e-20, max_iter=1e5)
+# ans = simple_iteration(M, eps=1e-16, max_iter=1e5)
+ans = sor_method(M, omega=1, eps=1e-16, max_iter=1e5)
 
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 

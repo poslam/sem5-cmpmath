@@ -1,6 +1,7 @@
 # тема: метод оптимального исключения (1.1.3)
 
 import sys
+
 import numpy as np
 from tabulate import tabulate
 

@@ -11,3 +11,63 @@ def print_matrix(matrix):
 
 def check_ans(M: np.ndarray, ans: np.ndarray) -> bool:
     print_matrix(M[:, :-1] @ ans - M[:, -1])
+
+
+def generate_diag_dominant_matrix(
+    n: int,
+    m: int,
+    min_border: int = -100,
+    max_border: int = 100,
+) -> np.ndarray:
+    if n >= m:
+        raise ValueError("n must be less than m")
+
+    A = np.random.uniform(min_border, max_border, size=(n, n))
+
+    for i in range(n):
+        row_sum = np.sum(np.abs(A[i, :])) - np.abs(A[i, i])
+
+        if A[i, i] >= 0:
+            A[i, i] = row_sum + np.random.uniform(1, 10)
+        else:
+            A[i, i] = -(row_sum + np.random.uniform(1, 10))
+
+    b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
+
+    M = np.hstack((A, b)).astype(np.double)
+
+    return M
+
+
+def generate_symmetric_matrix(
+    n: int,
+    m: int,
+    min_border: int = -100,
+    max_border: int = 100,
+) -> np.ndarray:
+    A = np.random.uniform(min_border, max_border, size=(n, m))
+    A = A @ A.T
+    b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
+
+    M = np.hstack((A, b.reshape(-1, 1)))
+
+    return M
+
+
+def generate_symmetric_pos_def_matrix(
+    n: int,
+    m: int,
+    min_border: int = -100,
+    max_border: int = 100,
+) -> np.ndarray:
+    if n >= m:
+        raise ValueError("n must be less than m")
+
+    A = np.random.uniform(min_border, max_border, size=(n, m))
+    A = A @ A.T + n * np.eye(n)
+
+    b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
+
+    M = np.hstack((A, b.reshape(-1, 1)))
+
+    return M
