@@ -41,7 +41,6 @@ def iteration(
     beta = np.zeros(n)
 
     for i in range(n):
-
         if np.abs(A[i, i]) <= np.abs(sum(A[i, 0:i])) + np.abs(sum(A[i, i + 1 :])):
             raise ValueError("Matrix is not diagonally dominant")
 
@@ -57,16 +56,51 @@ def iteration(
     xk_prev = beta + alpha @ xk
 
     while np.linalg.norm(xk_prev - xk) > eps:
-        # print(f"{counter}\t{xk}\t{np.linalg.norm(xk_prev - xk)}")
+        print(f"{counter}\t{np.linalg.norm(xk_prev - xk)}")
         xk_prev = xk
         xk = beta + alpha @ xk_prev
 
         counter += 1
 
-        if max_iter is not None and counter >= max_iter:
+        if counter >= max_iter:
             break
 
     return (xk, counter)
+
+
+def sor_method(
+    M: np.ndarray,
+    omega: float,
+    x0: np.ndarray = None,
+    eps: float = 1e-15,
+    max_iter=1e5,
+) -> tuple:
+    A = M[:, :-1]
+    b = M[:, -1]
+    n = A.shape[0]
+    x = x0.copy() if x0 is not None else np.zeros(n)
+
+    if not isinstance(max_iter, int):
+        max_iter = int(max_iter)
+
+    for iter_count in range(max_iter):
+        x_old = x.copy()
+
+        for i in range(n):
+            if np.abs(A[i, i]) <= np.abs(sum(A[i, 0:i])) + np.abs(sum(A[i, i + 1 :])):
+                raise ValueError("Matrix is not diagonally dominant")
+
+            sum1 = np.dot(A[i, :i], x[:i])
+            sum2 = np.dot(A[i, i + 1 :], x_old[i + 1 :])
+            x[i] = (1 - omega) * x_old[i] + (omega / A[i, i]) * (b[i] - sum1 - sum2)
+
+        print(f"{iter_count}\t{np.linalg.norm(x_old - x)}")
+
+        if np.linalg.norm(x_old - x) <= eps:
+            iter_count += 1
+            break
+
+    return (x, iter_count)
 
 
 M = np.array(
@@ -78,16 +112,19 @@ M = np.array(
 )
 
 size = (6, 7)
-M = generate_diag_dominant_matrix(*size)
+M = generate_diag_dominant_matrix(*size).astype(np.double)
 M /= np.max(M)
 
 print("matrix:")
 print_matrix(M)
 
-ans = iteration(M, eps=1e-20)
+print("steps:")
+ans = iteration(M, eps=1e-20, max_iter=1e5)
+# ans = sor_method(M, omega=1, eps=1e-20, max_iter=1e5)
+
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
-print(f"iterations: {ans[1]}")
+print(f"\niterations: {ans[1]}")
 ans = ans[0]
 
 print(
