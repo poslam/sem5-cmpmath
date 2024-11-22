@@ -1,9 +1,12 @@
 # тема: простая итерация. релаксация (1.2.1, 1.2.3)
 # src: https://kpfu.ru/portal/docs/F_939319029/drz.tmr.ChM_2..pdf
 
+import sys
 from typing import Literal
 
 from labs.funcs import *
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def generate_diag_dominant_matrix(
