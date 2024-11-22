@@ -1,6 +1,9 @@
 # тема: выбор главного элемента (1.1.1)
 
+import sys
 import numpy as np
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def find_max(M):

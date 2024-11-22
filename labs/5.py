@@ -1,9 +1,12 @@
 # тема: метод квадратного корня (1.1.4)
 
 from cmath import sqrt as csqrt
+import sys
 
 import numpy as np
 from tabulate import tabulate
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def print_matrix(matrix):

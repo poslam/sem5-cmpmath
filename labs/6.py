@@ -1,7 +1,10 @@
 # тема: метод окаймления
 
+import sys
 import numpy as np
 from tabulate import tabulate
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def print_matrix(matrix):
@@ -53,6 +56,7 @@ def method_okaimleniy(M: np.ndarray) -> np.ndarray:
     x = A_inv @ b
     return x
 
+
 size = (6, 7)
 M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 
@@ -71,10 +75,6 @@ delta:
 
 print("check (M @ x - b):")
 check_ans(M, ans)
-
-
-
-
 
 
 print(np.max(M))

@@ -1,7 +1,10 @@
 # тема: метод отражений (1.1.6)
 
+import sys
 import numpy as np
 from tabulate import tabulate
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def print_matrix(matrix):

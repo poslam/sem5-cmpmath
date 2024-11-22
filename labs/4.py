@@ -1,7 +1,10 @@
 # тема: LU (1.1.5)
 
+import sys
 import numpy as np
 from tabulate import tabulate
+
+sys.stdout = open("./labs/output.txt", "w")
 
 
 def print_matrix(matrix):
