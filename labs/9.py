@@ -40,7 +40,6 @@ def grad_descent_method(
 
 size = (6, 7)
 M = generate_symmetric_pos_def_matrix(*size).astype(np.double)
-# M = np.random.uniform(-10, 10, size=size)
 M /= np.max(M)
 
 print("matrix:")

@@ -45,11 +45,18 @@ def generate_symmetric_matrix(
     min_border: int = -100,
     max_border: int = 100,
 ) -> np.ndarray:
+    if n > m:
+        raise ValueError("n must be less than m")
+
     A = np.random.uniform(min_border, max_border, size=(n, m))
     A = A @ A.T
-    b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
 
-    M = np.hstack((A, b.reshape(-1, 1)))
+    if n != m:
+        b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
+        M = np.hstack((A, b.reshape(-1, 1)))
+
+    else:
+        M = A
 
     return M
 
@@ -60,12 +67,11 @@ def generate_symmetric_pos_def_matrix(
     min_border: int = -100,
     max_border: int = 100,
 ) -> np.ndarray:
-    if n >= m:
-        raise ValueError("n must be less than m")
+    if n > m:
+        raise ValueError("n must be less or equal than m")
 
     A = np.random.uniform(min_border, max_border, size=(n, m))
     A = A @ A.T + n * np.eye(n)
-
     b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
 
     M = np.hstack((A, b.reshape(-1, 1)))
