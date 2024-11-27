@@ -27,7 +27,6 @@ def richardson(
     """
     n = A.shape[0]
     x = np.random.rand(n)
-    x = x / np.linalg.norm(x)
 
     c = (b + a) / 2
     e = (b - a) / 2
@@ -44,29 +43,28 @@ def richardson(
 
         for j in range(k):
             y = tau[j] * (A @ y)
-            y = y / np.linalg.norm(y)
 
         lambda_new = (x.T @ A @ x) / (x.T @ x)
 
         print(f"{iter}\t{lambda_new}")
 
         if abs(lambda_new - lambda_old) < eps:
-            return lambda_new, y, iter * k + 1
+            return lambda_new, iter * k + 1
 
         x = y
         lambda_old = lambda_new
 
-    return lambda_new, y, iter * k + 1
+    return lambda_new, iter * k + 1
 
 
 size = (6, 6)
-M = generate_symmetric_pos_def_matrix(*size).astype(np.double)
+M = generate_symmetric_matrix(*size).astype(np.double)
 M /= np.max(M)
 
 print("matrix:")
 print_matrix(M)
 
-eigenval, eigenvec, iters = richardson(
+eigenval, iters = richardson(
     M,
     k=5,
     a=-1000,
@@ -75,5 +73,7 @@ eigenval, eigenvec, iters = richardson(
     max_iter=10**5,
 )
 
+mx_np_eigval = np.max(np.linalg.eigvals(M))
+
 print(f"\niters: {iters}")
-print(f"delta: {np.abs(np.max(np.linalg.eigvals(M) - eigenval))}")
+print(f"eignval delta: {np.abs(mx_np_eigval - eigenval)}")
