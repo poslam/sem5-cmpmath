@@ -69,8 +69,7 @@ size = (6, 6)
 M = generate_symmetric_matrix(*size).astype(np.double)
 M /= np.max(M)
 
-print("matrix:")
-print_matrix(M)
+print_matrix(M, "matrix")
 
 ans = rotation_with_barriers(M, p=8)  # max(p)=8
 np_ans = np.linalg.eigvals(M)

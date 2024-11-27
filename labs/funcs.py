@@ -2,15 +2,25 @@ import numpy as np
 from tabulate import tabulate
 
 
-def print_matrix(matrix):
+def print_matrix(matrix: np.ndarray, header: str = None):
     if len(matrix.shape) == 1:
         matrix = matrix.reshape((1, matrix.shape[0]))
     str_matrix = [[str(cell) for cell in row] for row in matrix]
-    print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
+    s = f"{tabulate(str_matrix, tablefmt='fancy_grid' ,)}\n"
+
+    if header is not None:
+        header = str(header).center(len(s.split("\n")[0]))
+        print(header)
+
+    print(s)
 
 
 def check_ans(M: np.ndarray, ans: np.ndarray) -> bool:
     print_matrix(M[:, :-1] @ ans - M[:, -1])
+
+
+def check_eigvec(A: np.ndarray, vec: np.ndarray, val: float):
+    print_matrix((A @ vec) / val - vec, header="check eigvec")
 
 
 def generate_diag_dominant_matrix(

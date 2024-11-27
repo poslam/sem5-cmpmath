@@ -15,7 +15,8 @@ def simple_iter(
     max_iter: int = 10**5,
 ) -> tuple:
     n = A.shape[0]
-    x = x0.copy() if x0 is not None else np.ones(n)
+    x = x0.copy() if x0 is not None else np.random.rand(n)
+    x = x / np.linalg.norm(x)
 
     l = 0
     for iter in range(max_iter):
@@ -24,7 +25,7 @@ def simple_iter(
 
         y_norm = y / np.linalg.norm(y)
 
-        print(f"{iter}\t{l_new}")
+        # print(f"{iter}\t{l_new}")
 
         if np.abs(l - l_new) < eps:
             break
@@ -47,11 +48,11 @@ size = (6, 6)
 M = generate_symmetric_matrix(*size).astype(np.double)
 M /= np.max(M)
 
-print("matrix:")
-print_matrix(M)
+print_matrix(M, header="matrix")
 
 eigvec, eigval, iters = simple_iter(M, eps=1e-16, max_iter=10**5)
 np_mx_eigval = np.max(np.linalg.eigvals(M))
 
 print(f"\niters: {iters}")
-print(f"eigval delta: {np.abs(np_mx_eigval - eigval)}")
+print(f"eigval delta: {np.abs(np_mx_eigval - eigval)}\n")
+check_eigvec(M, eigvec, eigval)
