@@ -1,4 +1,5 @@
 # тема: вращение с преградами
+# src: методичка
 
 import sys
 
@@ -7,10 +8,6 @@ import numpy as np
 from labs.funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
-
-
-def is_diagonal(matrix: np.ndarray) -> bool:
-    return np.allclose(matrix, np.diag(matrix))
 
 
 def rotation_with_barriers(
