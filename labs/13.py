@@ -44,8 +44,7 @@ size = (6, 6)
 M = generate_symmetric_matrix(*size).astype(np.double)
 M /= np.max(M)
 
-print("matrix:")
-print_matrix(M)
+print_matrix(M, "matrix")
 
 eigvec, eigval, iters = simple_iter(M, eps=1e-20, max_iter=10**5)
 np_mn_eigval = np.min(np.linalg.eigvals(M))
