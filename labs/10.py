@@ -17,6 +17,9 @@ def rotation_with_barriers(
     D = A.copy()
     n = D.shape[0]
 
+    if np.linalg.det(D) == 0:
+        raise ValueError("matrix is singular")
+
     counter = 0
 
     for K in range(1, p + 1):
@@ -65,7 +68,7 @@ def rotation_with_barriers(
     return np.diag(D)
 
 
-size = (6, 6)
+size = (20, 20)
 M = generate_symmetric_matrix(*size).astype(np.double)
 M /= np.max(M)
 
