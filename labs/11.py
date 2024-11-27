@@ -48,9 +48,8 @@ def richardson(
 
         lambda_new = (x.T @ A @ x) / (x.T @ x)
 
-        # print(f"{iter}\t{lambda_new}")
-
-        if abs(lambda_new - lambda_old) < eps:
+        if np.abs(lambda_new - lambda_old) < eps:
+            print(f"{iter}\t{np.abs(lambda_new - lambda_old)}")
             return lambda_new, y, iter * k + 1
 
         x = y

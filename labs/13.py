@@ -24,7 +24,7 @@ def simple_iter(
         x = np.linalg.inv(A) @ x * l_new
 
         if np.abs(l_new - l) < eps:
-            print(iter, np.abs(l_new - l))
+            print(iter, "\t", np.abs(l_new - l))
             return x, l, iter
 
         l = l_new

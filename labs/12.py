@@ -25,10 +25,9 @@ def simple_iter(
 
         y_norm = y / np.linalg.norm(y)
 
-        # print(f"{iter}\t{l_new}")
-
         if np.abs(l - l_new) < eps:
-            break
+            print(f"{iter}\t{np.abs(l - l_new)}")
+            return x, l, iter
 
         x = y_norm
         l = l_new
