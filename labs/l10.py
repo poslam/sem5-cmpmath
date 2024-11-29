@@ -145,5 +145,15 @@ vals = [eigenvalues1, eigenvalues2, eigenvalues3]
 for i in range(len(matrices)):
     print(
         np.array(sorted(np.linalg.eigvals(matrices[i])))
-        - np.array(sorted(rotation_with_barriers(matrices[i], p=8)))
+        - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
+        "\n",
     )
+
+    # print(np.array(sorted(vals[i])))
+    # print(np.array(sorted(np.linalg.eigvals(matrices[i]))))
+
+    # print(
+    #     np.array(sorted(vals[i]))
+    #     - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
+    #     "\n",
+    # )

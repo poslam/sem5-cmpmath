@@ -4,6 +4,7 @@
 import sys
 
 from labs.funcs import *
+from labs.l4 import LU
 
 sys.stdout = open("./labs/output.txt", "w")
 
@@ -21,7 +22,7 @@ def simple_iter(
     l = 0
     for iter in range(max_iter):
         l_new = 1 / np.max(x)
-        x = np.linalg.inv(A) @ x * l_new
+        x = LU(np.hstack([A, (x * l_new).reshape(-1, 1)]))[2]
 
         if np.abs(l_new - l) < eps:
             print(iter, "\t", np.abs(l_new - l))
@@ -47,8 +48,8 @@ M = np.array(
 
 print_matrix(M, "matrix")
 
-eigvec, eigval, iters = simple_iter(M, eps=1e-20, max_iter=10**5)
-np_mn_eigval = np.min(np.linalg.eigvals(M))
+eigvec, eigval, iters = simple_iter(M, eps=1e-16, max_iter=10**5)
+np_mn_eigval = np.min(np.abs(np.linalg.eigvals(M)))
 
 print(f"\niters: {iters}")
 print(f"eigval delta: {np.abs(np_mn_eigval - eigval)}\n")

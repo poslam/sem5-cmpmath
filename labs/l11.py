@@ -27,7 +27,7 @@ def richardson(
     returns: (eigval, eigvec, iter_count)
     """
     n = A.shape[0]
-    x = np.random.rand(n)
+    x = np.ones(n)
     x = x / np.linalg.norm(x)
 
     c = (b + a) / 2
@@ -59,23 +59,52 @@ def richardson(
     return lambda_new, y, iter * k + 1
 
 
-size = (6, 6)
-M = generate_symmetric_matrix(*size).astype(np.double)
-M /= np.max(M)
+# size = (6, 6)
+# M = generate_symmetric_matrix(*size).astype(np.double)
+# M /= np.max(M)
 
-print_matrix(M, "matrix")
+# print_matrix(M, "matrix")
 
-eigval, eigvec, iters = richardson(
-    M,
-    k=5,
-    a=-1000,
-    b=1000,
-    eps=1e-20,
-    max_iter=10**5,
-)
+matrices = [
+    np.array(
+        [
+            [-0.168700, 0.353699, 0.008540, 0.733624],
+            [0.353699, 0.056519, -0.723182, -0.076440],
+            [0.008540, -0.723182, 0.015938, 0.342333],
+            [0.733624, -0.076440, 0.342333, -0.045744],
+        ]
+    ),
+    np.array(
+        [
+            [2.2, 1.0, 0.5, 2.0],
+            [1.0, 1.3, 2, 1],
+            [0.5, 2, 0.5, 1.6],
+            [2, 1, 1.6, 2],
+        ]
+    ),
+    np.array(
+        [
+            [2, 0.42, 0.54, 0.66],
+            [0.42, 2, 0.32, 0.44],
+            [0.54, 0.32, 2, 0.22],
+            [0.66, 0.44, 0.22, 2],
+        ]
+    ),
+]
 
-mx_np_eigval = np.max(rotation_with_barriers(M, p=8))
+for M in matrices:
+    eigval, eigvec, iters = richardson(
+        M,
+        k=5,
+        a=-1000,
+        b=1000,
+        eps=1e-20,
+        max_iter=10**5,
+    )
 
-print(f"\niters: {iters}")
-print(f"eignval delta: {np.abs(mx_np_eigval - eigval)}\n")
-check_eigvec(M, eigvec, eigval)
+    mx_np_eigval = np.max(rotation_with_barriers(M, p=8))
+
+    print(f"\niters: {iters}")
+    print(f"eignval delta: {np.abs(mx_np_eigval - eigval)}\n")
+    # print(eigval, mx_np_eigval)
+    check_eigvec(M, eigvec, eigval)

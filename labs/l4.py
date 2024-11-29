@@ -2,17 +2,9 @@
 
 import sys
 
-import numpy as np
-from tabulate import tabulate
+from labs.funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
-
-
-def print_matrix(matrix):
-    if len(matrix.shape) == 1:
-        matrix = matrix.reshape((1, matrix.shape[0]))
-    str_matrix = [[str(cell) for cell in row] for row in matrix]
-    print(f"{tabulate(str_matrix, tablefmt='fancy_grid')}\n")
 
 
 def get_LU(M: np.ndarray) -> np.ndarray:
@@ -59,27 +51,27 @@ M = np.random.uniform(-1000, 1000, size=(size[0], size[1]))
 ans = LU(M)
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
-print("matrix:")
-print_matrix(M)
+# print("matrix:")
+# print_matrix(M)
 
-print("L:")
-print_matrix(ans[0])
+# print("L:")
+# print_matrix(ans[0])
 
-print("U:")
-print_matrix(ans[1])
+# print("U:")
+# print_matrix(ans[1])
 
-print(
-    f"""
-check:
-{np.allclose(ans[0] @ ans[1], M[:, :-1])}
+# print(
+#     f"""
+# check:
+# {np.allclose(ans[0] @ ans[1], M[:, :-1])}
 
-alg solve:
-{''.join(f"{i}: {ans[2][i]}\n" for i in range(len(ans[2])))}
+# alg solve:
+# {''.join(f"{i}: {ans[2][i]}\n" for i in range(len(ans[2])))}
 
-np solve:
-{''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
+# np solve:
+# {''.join(f"{i[0]}: {i[1]}\n" for i in enumerate(np_ans))}
 
-delta:
-{''.join(f"{i[0]}: {abs(i[1] - ans[2][i[0]])}\n" for i in enumerate(np_ans))}
-"""
-)
+# delta:
+# {''.join(f"{i[0]}: {abs(i[1] - ans[2][i[0]])}\n" for i in enumerate(np_ans))}
+# """
+# )

@@ -35,14 +35,6 @@ def simple_iter(
     return x, l, iter
 
 
-# M = np.array(
-#     [
-#         [2, 1, 1],
-#         [1, 2.5, 1],
-#         [1, 1, 3],
-#     ]
-# )
-
 M = np.array(
     [
         [-0.168700, 0.353699, 0.008540, 0.733624],
@@ -59,7 +51,7 @@ M = np.array(
 print_matrix(M, header="matrix")
 
 eigvec, eigval, iters = simple_iter(M, eps=1e-16, max_iter=10**5)
-np_mx_eigval = np.max(np.linalg.eigvals(M))
+np_mx_eigval = np.max(np.abs(np.linalg.eigvals(M)))
 
 print(f"\niters: {iters}")
 print(f"eigval delta: {np.abs(np_mx_eigval - eigval)}\n")
