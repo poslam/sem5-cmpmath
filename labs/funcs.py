@@ -1,3 +1,5 @@
+from typing import Union
+
 import numpy as np
 from tabulate import tabulate
 
@@ -21,6 +23,14 @@ def check_ans(M: np.ndarray, ans: np.ndarray) -> bool:
 
 def check_eigvec(A: np.ndarray, vec: np.ndarray, val: float):
     print_matrix((A @ vec) / val - vec, header="check eigvec")
+
+
+def check_eigvals(A: np.ndarray, vals: Union[list[np.ndarray]]):
+    print("check eigvals with det(A - val * E):")
+    n = A.shape[0]
+
+    for i in range(len(vals)):
+        print(f"{i}: {np.linalg.det(A - vals[i] * np.eye(n))}")
 
 
 def generate_diag_dominant_matrix(

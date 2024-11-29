@@ -34,15 +34,16 @@ def simple_iter(
 
 M = np.array(
     [
-        [2, 1, 1],
-        [1, 2.5, 1],
-        [1, 1, 3],
+        [2.2, 1.0, 0.5, 2.0],
+        [1.0, 1.3, 2, 1],
+        [0.5, 2, 0.5, 1.6],
+        [2, 1, 1.6, 2],
     ]
 )
 
-size = (6, 6)
-M = generate_symmetric_matrix(*size).astype(np.double)
-M /= np.max(M)
+# size = (6, 6)
+# M = generate_symmetric_matrix(*size).astype(np.double)
+# M /= np.max(M)
 
 print_matrix(M, "matrix")
 
