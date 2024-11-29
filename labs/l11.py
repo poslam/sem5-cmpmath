@@ -102,9 +102,8 @@ for M in matrices:
         max_iter=10**5,
     )
 
-    mx_np_eigval = np.max(rotation_with_barriers(M, p=8))
+    mx_np_eigval = np.max(np.abs(rotation_with_barriers(M, p=8)))
 
     print(f"\niters: {iters}")
-    print(f"eignval delta: {np.abs(mx_np_eigval - eigval)}\n")
-    # print(eigval, mx_np_eigval)
+    print(f"eignval delta: {np.abs(mx_np_eigval - np.abs(eigval))}\n")
     check_eigvec(M, eigvec, eigval)
