@@ -5,6 +5,7 @@ import sys
 import numpy as np
 
 from labs.funcs import *
+from labs.l10 import rotation_with_barriers
 
 sys.stdout = open("./labs/output.txt", "w")
 
@@ -73,7 +74,7 @@ eigval, eigvec, iters = richardson(
     max_iter=10**5,
 )
 
-mx_np_eigval = np.max(np.linalg.eigvals(M))
+mx_np_eigval = np.max(rotation_with_barriers(M, p=8))
 
 print(f"\niters: {iters}")
 print(f"eignval delta: {np.abs(mx_np_eigval - eigval)}\n")
