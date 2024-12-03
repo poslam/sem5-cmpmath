@@ -3,7 +3,7 @@
 
 import sys
 
-from labs.funcs import *
+from funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
 

@@ -2,9 +2,9 @@
 
 import sys
 
-from labs.funcs import *
+from funcs import *
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def grad_descent_method(
@@ -16,7 +16,7 @@ def grad_descent_method(
     A = M[:, :-1]
     b = M[:, -1]
     n = A.shape[0]
-    x = x0.copy() if x0 is not None else np.zeros(n)
+    x = x0.copy() if x0 is not None else np.ones(n)
 
     if not isinstance(max_iter, int):
         max_iter = int(max_iter)

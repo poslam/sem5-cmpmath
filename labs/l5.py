@@ -4,8 +4,7 @@ import sys
 from cmath import sqrt as csqrt
 
 import numpy as np
-
-from labs.funcs import *
+from funcs import *
 
 sys.stdout = open("./labs/output.txt", "w")
 

@@ -96,7 +96,7 @@ def generate_symmetric_pos_def_matrix(
     A = np.random.uniform(min_border, max_border, size=(n, m))
     A = A @ A.T + n * np.eye(n)
 
-    if n != n:
+    if n != m:
         b = np.random.uniform(min_border, max_border, size=(n, np.abs(n - m)))
 
         M = np.hstack((A, b.reshape(-1, 1)))

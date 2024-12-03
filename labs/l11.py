@@ -3,8 +3,8 @@
 import sys
 
 import numpy as np
+from funcs import *
 
-from labs.funcs import *
 from labs.l10 import rotation_with_barriers
 
 sys.stdout = open("./labs/output.txt", "w")
