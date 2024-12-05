@@ -4,10 +4,9 @@ import sys
 
 import numpy as np
 from funcs import *
+from l10 import rotation_with_barriers
 
-from labs.l10 import rotation_with_barriers
-
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def richardson(

@@ -6,7 +6,7 @@ import sys
 import numpy as np
 from funcs import *
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def sign(x: float):

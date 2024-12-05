@@ -4,10 +4,9 @@
 import sys
 
 from funcs import *
+from l4 import LU
 
-from labs.l4 import LU
-
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def simple_iter(

@@ -4,7 +4,7 @@ import sys
 
 import numpy as np
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def find_max(M):

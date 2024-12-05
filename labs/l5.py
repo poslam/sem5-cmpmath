@@ -6,7 +6,7 @@ from cmath import sqrt as csqrt
 import numpy as np
 from funcs import *
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def make_triangular(M: np.ndarray) -> np.ndarray:

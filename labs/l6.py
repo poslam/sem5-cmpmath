@@ -5,7 +5,7 @@ import sys
 import numpy as np
 from tabulate import tabulate
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def print_matrix(matrix):

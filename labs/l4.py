@@ -4,7 +4,7 @@ import sys
 
 from funcs import *
 
-sys.stdout = open("./labs/output.txt", "w")
+sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def get_LU(M: np.ndarray) -> np.ndarray:
