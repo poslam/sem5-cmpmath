@@ -1,4 +1,5 @@
 # тема: Ричардсон
+# src: https://www-users.cse.umn.edu/~saad/IterMethBook_2ndEd.pdf
 
 import sys
 
@@ -83,10 +84,10 @@ matrices = [
     ),
     np.array(
         [
-            [2, 0.42, 0.54, 0.66],
-            [0.42, 2, 0.32, 0.44],
-            [0.54, 0.32, 2, 0.22],
-            [0.66, 0.44, 0.22, 2],
+            [1, 0.42, 0.54, 0.66],
+            [0.42, 1, 0.32, 0.44],
+            [0.54, 0.32, 1, 0.22],
+            [0.66, 0.44, 0.22, 1],
         ]
     ),
 ]
@@ -94,7 +95,7 @@ matrices = [
 for M in matrices:
     eigval, eigvec, iters = richardson(
         M,
-        k=5,
+        k=10,
         a=-1000,
         b=1000,
         eps=1e-20,
@@ -106,3 +107,49 @@ for M in matrices:
     print(f"\niters: {iters}")
     print(f"eignval delta: {np.abs(mx_np_eigval - np.abs(eigval))}\n")
     check_eigvec(M, eigvec, eigval)
+
+
+"""
+Saad, Y. (2011). Numerical Methods for Large Eigenvalue Problems
+Richardson, L.F. (1911). The Approximate Arithmetical Solution by Finite Differences of Physical Problems
+Burden, R.L. and Faires, J.D. (2010). Numerical Analysis, 9th Edition
+
+import numpy as np
+
+def richardson_method(A: np.ndarray, tol=1e-10, max_iter=1000):
+    n = A.shape[0]
+    
+    x0 = np.ones(n)
+    x = x0 / np.linalg.norm(x0)  # Normalize initial vector
+    
+    for i in range(max_iter):
+        x_new = A @ x  # Matrix-vector multiplication
+        lambda_k = np.dot(x_new, x) / np.dot(x, x)  # Rayleigh quotient
+        
+        # Normalize new vector
+        x_new = x_new / np.linalg.norm(x_new)
+        
+        # Check convergence
+        if np.linalg.norm(x_new - x) < tol:
+            return lambda_k, x_new
+            
+        x = x_new
+        
+    return lambda_k, x
+
+# Example usage
+if __name__ == "__main__":
+    # Test matrix
+    A = np.array(
+        [
+            [2, 0.42, 0.54, 0.66],
+            [0.42, 2, 0.32, 0.44],
+            [0.54, 0.32, 2, 0.22],
+            [0.66, 0.44, 0.22, 2],
+        ]
+    )
+    
+    lambda_max, eigenvector = richardson_method(A)
+    print(f"Maximum eigenvalue: {lambda_max:.6f}")
+    print(f"Corresponding eigenvector: {eigenvector}")
+"""
