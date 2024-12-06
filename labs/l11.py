@@ -1,6 +1,4 @@
 # тема: Ричардсон
-# src: https://www-users.cse.umn.edu/~saad/IterMethBook_2ndEd.pdf
-# pages: 43 (Rayleigh quotient), 136, 137, 448 (Richardson)
 
 import sys
 
@@ -12,87 +10,70 @@ sys.stdout = open("./labs/output.txt", "w", encoding="utf-8")
 
 
 def richardson(
-    A: np.ndarray,
-    a: float,
-    b: float,
+    M: np.ndarray,
+    k: int,
+    mn: float,
+    mx: float,
     eps: float = 1e-10,
-    max_iter: int = 10**5,
+    max_iter: int = 1000,
 ) -> tuple:
+    A = M[:, :-1]
+    b = M[:, -1]
+
     n = A.shape[0]
     x = np.ones(n)
     x = x / np.linalg.norm(x)
 
-    if a + b == 0:
-        a += 1
+    gm = mn / mx
+    tau0 = 2 / (mx + mn)
+    ro0 = (1 - gm) / (1 + gm)
 
-    alpha = 2 / np.abs(a + b)
+    tau = np.zeros(k)
 
-    l = 0
+    for j in range(k):
+        nu0 = np.pi * (2 * j - 1) / k
+        tau[j] = tau0 / (1 + ro0 * np.cos(nu0))
+
     iters = 0
 
-    while iters < max_iter:
+    while iters * k < max_iter:
         y = x.copy()
 
-        y = y - alpha * (A @ y)
-        y = y / np.linalg.norm(y)
+        for j in range(k):
+            x = x - tau[j] * (A @ x - b)
 
-        l_new = np.dot(A @ y, y) / np.dot(y, y)
+        if np.linalg.norm(x - y) < eps:
+            return x
 
-        if np.abs(l_new - l) < eps:
-            print(f"{iters}\t{np.abs(l_new - l)}")
-            break
-
-        x = y
-        l = l_new
         iters += 1
 
-    return l_new, y, iters
+    return x
 
 
-# size = (6, 6)
-# M = generate_symmetric_matrix(*size).astype(np.double)
-# M /= np.max(M)
+size = (6, 7)
+M = generate_symmetric_pos_def_matrix(*size).astype(np.double)
+M /= np.max(M)
 
-# print_matrix(M, "matrix")
 
-matrices = [
-    np.array(
-        [
-            [-0.168700, 0.353699, 0.008540, 0.733624],
-            [0.353699, 0.056519, -0.723182, -0.076440],
-            [0.008540, -0.723182, 0.015938, 0.342333],
-            [0.733624, -0.076440, 0.342333, -0.045744],
-        ]
-    ),
-    np.array(
-        [
-            [2.2, 1.0, 0.5, 2.0],
-            [1.0, 1.3, 2, 1],
-            [0.5, 2, 0.5, 1.6],
-            [2, 1, 1.6, 2],
-        ]
-    ),
-    np.array(
-        [
-            [1, 0.42, 0.54, 0.66],
-            [0.42, 1, 0.32, 0.44],
-            [0.54, 0.32, 1, 0.22],
-            [0.66, 0.44, 0.22, 1],
-        ]
-    ),
-]
+rb_eigvals = rotation_with_barriers(M[:, :-1], p=8)
 
-for M in matrices:
-    eigval, eigvec, iters = richardson(
-        M,
-        a=-100,
-        b=100,
-        eps=1e-20,
-        max_iter=10**5,
-    )
+ans = richardson(
+    M,
+    k=10,
+    mn=rb_eigvals.min(),
+    mx=rb_eigvals.max(),
+    eps=1e-10,
+    max_iter=10**5,
+)
 
-    mx_np_eigval = np.max(np.abs(rotation_with_barriers(M, p=8)))
+np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
 
-    print(f"\niters: {iters}")
-    print(f"eignval delta: {np.abs(mx_np_eigval - np.abs(eigval))}\n")
-    check_eigvec(M, eigvec, eigval)
+print(
+    f"""
+delta:
+{''.join(f"{i[0]}: {abs(i[1] - ans[i[0]])}\n" for i in enumerate(np_ans))}
+"""
+)
+
+print("check (M @ x - b):")
+check_ans(M, ans)

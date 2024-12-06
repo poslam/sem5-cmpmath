@@ -54,5 +54,6 @@ eigvec, eigval, iters = simple_iter(M, eps=1e-16, max_iter=10**5)
 np_mx_eigval = np.max(np.abs(np.linalg.eigvals(M)))
 
 print(f"\niters: {iters}")
+print(eigval)
 print(f"eigval delta: {np.abs(np_mx_eigval - np.abs(eigval))}\n")
 check_eigvec(M, eigvec, eigval)

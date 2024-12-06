@@ -52,9 +52,9 @@ def rotation_with_barriers(
 
             d = np.sqrt((D[i, i] - D[j, j]) ** 2 + 4 * D[i, j] ** 2)
             s = sign(D[i, j] * (D[i, i] - D[j, j])) * np.sqrt(
-                1 / 2 * (1 - np.linalg.norm(D[i, i] - D[j, j]) / d)
+                1 / 2 * (1 - abs(D[i, i] - D[j, j]) / d)
             )
-            c = np.sqrt(1 / 2 * (1 + np.linalg.norm(D[i, i] - D[j, j]) / d))
+            c = np.sqrt(1 / 2 * (1 + abs(D[i, i] - D[j, j]) / d))
 
             C = D.copy()
 
@@ -141,18 +141,18 @@ eigenvalues3 = np.array([2.3227, 0.7967, 0.6383, 0.2423])
 matrices = [M1, M2, M3]
 vals = [eigenvalues1, eigenvalues2, eigenvalues3]
 
-for i in range(len(matrices)):
-    # print(
-    #     np.array(sorted(np.linalg.eigvals(matrices[i])))
-    #     - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
-    #     "\n",
-    # )
+# for i in range(len(matrices)):
+#     print(
+#         np.array(sorted(np.linalg.eigvals(matrices[i])))
+#         - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
+#         "\n",
+#     )
 
-    # print("given: ", np.array(sorted(vals[i])))
-    # print("numpy: ", np.array(sorted(np.linalg.eigvals(matrices[i]))))
-    print(
-        "delta (given - algo): ",
-        np.array(sorted(vals[i]))
-        - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
-        "\n",
-    )
+# print("given: ", np.array(sorted(vals[i])))
+# print("numpy: ", np.array(sorted(np.linalg.eigvals(matrices[i]))))
+# print(
+#     "delta (given - algo): ",
+#     np.array(sorted(vals[i]))
+#     - np.array(sorted(rotation_with_barriers(matrices[i], p=8))),
+#     "\n",
+# )
