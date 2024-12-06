@@ -16,7 +16,7 @@ def richardson(
     a: float,
     b: float,
     eps: float = 1e-10,
-    max_iter: int = 1000,
+    max_iter: int = 10**5,
 ) -> tuple:
     n = A.shape[0]
     x = np.ones(n)
@@ -85,8 +85,8 @@ matrices = [
 for M in matrices:
     eigval, eigvec, iters = richardson(
         M,
-        a=-1000,
-        b=1000,
+        a=-100,
+        b=100,
         eps=1e-20,
         max_iter=10**5,
     )
