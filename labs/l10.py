@@ -29,8 +29,8 @@ def rotation_with_barriers(
     counter = 0
 
     for K in range(1, p + 1):
-        # sigma = np.sqrt(np.max(np.abs(np.diag(np.diag(D))))) * 10 ** (-K)
-        sigma = 10 ** (-K)
+        sigma = np.sqrt(np.max(np.abs(np.diag(np.diag(D))))) * 10 ** (-K)
+        # sigma = 10 ** (-K)
 
         while True:
             if counter > 1e5:
