@@ -42,10 +42,12 @@ def richardson(
         for j in range(k):
             x = x - tau[j] * (A @ x - b)
 
-        if np.linalg.norm(x - y) < eps:
-            return x
-
         iters += 1
+
+        if np.linalg.norm(x - y) < eps:
+            break
+
+    print(f"iters: {iters * k}")
 
     return x
 
@@ -62,7 +64,7 @@ ans = richardson(
     k=10,
     mn=rb_eigvals.min(),
     mx=rb_eigvals.max(),
-    eps=1e-10,
+    eps=1e-16,
     max_iter=10**5,
 )
 
