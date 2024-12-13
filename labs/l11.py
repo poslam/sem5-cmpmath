@@ -31,7 +31,7 @@ def richardson(
     tau = np.zeros(k)
 
     for j in range(k):
-        nu0 = np.pi * (2 * j - 1) / k
+        nu0 = np.pi * (2 * j - 1) / (2 * k)
         tau[j] = tau0 / (1 + ro0 * np.cos(nu0))
 
     iters = 0
@@ -53,8 +53,10 @@ def richardson(
 
 
 size = (6, 7)
-M = generate_symmetric_pos_def_matrix(*size).astype(np.double)
-M /= np.max(M)
+# M = generate_symmetric_pos_def_matrix(*size).astype(np.double)
+# M /= np.max(M)
+
+M = np.array([[2, 1, 4], [1, 2, 5]])
 
 
 rb_eigvals = rotation_with_barriers(M[:, :-1], p=8)
@@ -64,11 +66,13 @@ ans = richardson(
     k=10,
     mn=rb_eigvals.min(),
     mx=rb_eigvals.max(),
-    eps=1e-16,
-    max_iter=10**5,
+    eps=1e-15,
+    max_iter=10**6,
 )
 
 np_ans = np.linalg.solve(M[:, :-1], M[:, -1])
+
+print_matrix(ans)
 
 print(
     f"""
